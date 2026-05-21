@@ -1,0 +1,10 @@
+{
+  "name": "Logistics POS System",
+  "description": "A modern, responsive Point of Sale and logistics management system for administrators and delivery employees.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
