@@ -7,16 +7,20 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import React from 'react';
 import { AuthProvider, useAuth } from './store/authStore';
 
-// Pages
+// Layout & Common
 import Login from './pages/Login';
-import AdminDashboard from './pages/admin/Dashboard';
+import AppLayout from './components/AppLayout';
 
-import EmployeeLayout from './pages/employee/Layout';
-import Visitas from './pages/employee/Visitas';
-import Pedidos from './pages/employee/Pedidos';
-import NuevaVenta from './pages/employee/NuevaVenta';
-import Clientes from './pages/employee/Clientes';
-import Facturas from './pages/employee/Facturas';
+// Admin Pages
+import Dashboard from './pages/admin/Dashboard';
+import Empleados from './pages/admin/Empleados';
+import Inventario from './pages/admin/Inventario';
+import Tracking from './pages/admin/Tracking';
+
+// Employee Pages
+import Historial from './pages/employee/Historial';
+import MapaPedidos from './pages/employee/MapaPedidos';
+import Soporte from './pages/employee/Soporte';
 
 // Auth Guards
 function RequireAdmin({ children }: { children: React.ReactNode }) {
@@ -36,41 +40,36 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Login />} />
       
-      {/* Admin Routes */}
+      {/* Rutas Admin */}
       <Route 
         path="/admin" 
         element={
           <RequireAdmin>
-            <AdminDashboard />
+            <AppLayout />
           </RequireAdmin>
         } 
-      />
+      >
+        <Route index element={<Navigate to="dashboard" replace />} />
+        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="empleados" element={<Empleados />} />
+        <Route path="inventario" element={<Inventario />} />
+        <Route path="tracking" element={<Tracking />} />
+      </Route>
 
-      {/* Employee Routes */}
+      {/* Rutas Empleado */}
       <Route 
-        path="/employee" 
+        path="/empleado" 
         element={
           <RequireEmployee>
-            <EmployeeLayout />
+            <AppLayout />
           </RequireEmployee>
         }
       >
-        <Route index element={<Navigate to="visitas" replace />} />
-        <Route path="visitas" element={<Visitas />} />
-        <Route path="pedidos" element={<Pedidos />} />
-        <Route path="clientes" element={<Clientes />} />
-        <Route path="facturas" element={<Facturas />} />
+        <Route index element={<Navigate to="mapa" replace />} />
+        <Route path="historial" element={<Historial />} />
+        <Route path="mapa" element={<MapaPedidos />} />
+        <Route path="soporte" element={<Soporte />} />
       </Route>
-      
-      {/* Employee Nueva Venta (No Layout Bottom Bar, has its own full-screen layout) */}
-      <Route 
-        path="/employee/nueva-venta" 
-        element={
-          <RequireEmployee>
-            <NuevaVenta />
-          </RequireEmployee>
-        }
-      />
       
       {/* Fallback */}
       <Route path="*" element={<Navigate to="/" replace />} />
